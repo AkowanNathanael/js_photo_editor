@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>input</title>
+    <style>
+        form{
+            width: 80%;
+            margin: 0 auto;
+            background-color: gainsboro;
+            padding: 5px;
+            max-height: 90vh;
+        }
+        .wrapper{
+            display: flex;
+            justify-content: space-between;
+            max-height: 50%;
+        }
+        .left, .right{
+            padding: 10px;
+        }
+        .left{
+            width: 55%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: palevioletred;
+            box-sizing: border-box;
+        }
+        .right{
+            width: 40%;
+            background-color: pink;
+        }
+        img{
+            /* filter: brightness(10%) contrast(10%) opacity(50%) hue-rotate(10deg)  saturate(10%)  grayscale(10%); */
+            display: block;
+            width:inherit;
+            height:inherit;
+            box-sizing: border-box;
+        }
+       
+        .range-wrapper{
+            margin-top: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media  (max-width:700px) {
+            form{
+                width: 100vw;
+            }
+        }
+
+        video{
+            width: 50%;
+            height: 45%;
+            margin-top: 0 auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- <div class="video" >
+        <video controls muted autoplay poster="./Screenshot (15).png" src="./animation.mp4"></video>
+    </div> -->
+<script>
+    var vid =document.getElementsByTagName("video")[0]
+    console.log(vid.playbackRate)
+
+</script>
+
+<form action="" method="get">
+    <div class="wrapper" id="wrapper">
+        <div class="left" id="left">
+            <img src="" alt="image" id="image">
+        </div>
+
+        <div class="right" id="right">
+            <div class="brightnes" id="brightness-box">
+                <div class="option">
+                    brightness
+                    <span class="b-value" id="b-value">0%</span> 
+                </div> <br>
+                <input min="0" max="200" value="90" type="range" name="" id="brightness" class="brightness"> 
+            </div>
+            
+            <div class="opacity" id="opacity-box">
+                <div class="option">
+                    opacity
+                    <span class="o-value" id="o-value">0%</span> 
+                </div>
+                <input  min="0" value="50" max="100" type="range" name="" id="opacity" class="opacity"> 
+            </div>
+
+            <div class="contrast-box" id="contrast-box">
+                <div class="option">
+                    contrast
+                    <span class="c-value" id="c-value">0%</span> 
+                </div>
+                <input min="0" value="90" max="200" type="range" name="" id="contrast" class="contrast"> 
+            </div>
+
+            <div class="hue-rotate-box" id="hue-rotate-box">
+                <div class="option">
+                    hue-rotate
+                    <span class="hue-value" id="hue-value">0%</span> 
+                </div>
+                <input min="0" value="0" max="360" type="range" name="" id="hue-rotate" class="hue-rotate"> 
+            </div>
+
+            <div class="saturate-box" id="saturate-box">
+                <div class="option">
+                    saturate
+                    <span class="sat-value" id="sat-value">0%</span> 
+                </div>
+                <input min="0" max="100" value="0" type="range" name="" id="saturate" class="saturate"> 
+            </div>
+
+            <div class="grayscale-box" id="grayscale-box">
+                <div class="option">
+                    grayscale
+                    <span class="gray-value" id="gray-value">0%</span> 
+                </div>
+                <input value="0" min='0' max="100" type="range" name="" id="grayscale" class="grayscale">
+            </div>
+
+            <div class="grayscale-box" id="sepia-box">
+                <div class="option">
+                    sepia
+                    <span class="gray-value" id="sepia-value">0%</span> 
+                </div>
+                <input value="0" min='0' max="100" type="range" name="" id="sepia" class="sepia">
+            </div>
+
+        </div>
+    </div>
+    <div class="controls">
+     <br>
+        <input type="file" name="file" id="file" accept="image/*" hidden> 
+        <input type="reset" value="reset" id="reset"> 
+        <input type="button" value="save" id="save">
+        <input type="button" value="choose" id="choose">
+    </div>
+    
+</form>
+
+<script>
+    var file=document.getElementById("file");
+    var choose=document.getElementById("choose");
+    var image=document.getElementById("image");
+    var save=document.getElementById("save");
+    var reset=document.getElementById("reset");
+    
+
+ 
+    // range input elements
+    const b_val=document.getElementById("b-value")
+    const o_val=document.getElementById("o-value")
+    const c_val=document.getElementById("c-value")
+    const hue_val=document.getElementById("hue-value")
+    const sat_val=document.getElementById("sat-value")
+    const gray_val=document.getElementById("gray-value")
+    const sepia_val=document.getElementById("sepia-value")
+
+    // range input value spans
+    var brightness=document.getElementById("brightness")
+    var opacity=document.getElementById("opacity")
+    var contrast=document.getElementById("contrast")
+    var hue_rotate=document.getElementById("hue-rotate")
+    var saturation=document.getElementById("saturate")
+    var grayscale=document.getElementById("grayscale")
+    var sepia=document.getElementById("sepia")
+
+   
+    
+
+    //css3 filter functionalities
+        brightness.addEventListener("change",(e)=>{
+           b_val.innerText=brightness.value+" %"
+           image.style.filter= ` brightness(${brightness.value}%)\
+             grayscale(${grayscale.value}%) saturate(${saturation.value}%)\
+              hue-rotate(${hue_rotate.value}deg) opacity(${opacity.value}%)\
+                contrast(${contrast.value}%) sepia(${sepia.value}%)`;
+        })
+        opacity.addEventListener("change",(e)=>{
+           o_val.innerText=opacity.value+" %"
+           image.style.filter= ` brightness(${brightness.value}%)\
+             grayscale(${grayscale.value}%) saturate(${saturation.value}%)\
+              hue-rotate(${hue_rotate.value}deg) opacity(${opacity.value}%)\
+                contrast(${contrast.value}%) sepia(${sepia.value}%)`;
+           
+        })
+        contrast.addEventListener("change",(e)=>{
+            c_val.innerText=contrast.value+" %"
+            image.style.filter= ` brightness(${brightness.value}%)\
+             grayscale(${grayscale.value}%) saturate(${saturation.value}%)\
+              hue-rotate(${hue_rotate.value}deg) opacity(${opacity.value}%)\
+                contrast(${contrast.value}%)  sepia(${sepia.value}%)`;
+        })
+        hue_rotate.addEventListener("change",(e)=>{
+            hue_val.innerText=hue_rotate.value+" %"
+            image.style.filter= ` brightness(${brightness.value}%)\
+             grayscale(${grayscale.value}%) saturate(${saturation.value}%)\
+              hue-rotate(${hue_rotate.value}deg) opacity(${opacity.value}%)\
+                contrast(${contrast.value}%)  sepia(${sepia.value}%)`;
+        })
+       saturation.addEventListener("change",(e)=>{
+        sat_val.innerText=saturation.value+" %"
+        image.style.filter= ` brightness(${brightness.value}%)\
+             grayscale(${grayscale.value}%) saturate(${saturation.value}%)\
+              hue-rotate(${hue_rotate.value}deg) opacity(${opacity.value}%)\
+                contrast(${contrast.value}%)  sepia(${sepia.value}%)`;
+       })
+       grayscale.addEventListener("change",(e)=>{
+        gray_val.innerText=grayscale.value+" %"
+        image.style.filter= ` brightness(${brightness.value}%)\
+             grayscale(${grayscale.value}%) saturate(${saturation.value}%)\
+              hue-rotate(${hue_rotate.value}deg) opacity(${opacity.value}%)\
+                contrast(${contrast.value}%)  sepia(${sepia.value}%)`;
+       })
+       sepia.addEventListener("change",(e)=>{
+        sepia_val.innerText=sepia.value+" %"
+        image.style.filter= ` brightness(${brightness.value}%)\
+             grayscale(${grayscale.value}%) saturate(${saturation.value}%)\
+              hue-rotate(${hue_rotate.value}deg) opacity(${opacity.value}%)\
+                contrast(${contrast.value}%)  sepia(${sepia.value}%)`;
+       })
+
+
+
+       //reset functionalty
+       reset.addEventListener("click",(e)=>{
+        image.src="";
+        disabled_true()
+    })
+    
+    //save functionality
+    save.addEventListener("click",(e)=>{
+        var anchor=document.createElement("a");
+        const canvas=document.createElement("canvas");
+        const ctx=canvas.getContext("2d")
+        canvas.width=500
+        canvas.height=580
+        ctx.filter= ` brightness(${brightness.value}%)\
+             grayscale(${grayscale.value}%) saturate(${saturation.value}%)\
+              hue-rotate(${hue_rotate.value}deg) opacity(${opacity.value}%)\
+                contrast(${contrast.value}%) sepia(${sepia.value}%)`;
+        ctx.drawImage(image,0,0, canvas.width,canvas.height)
+        
+        anchor.setAttribute("download","yehhs.jpg")
+        anchor.setAttribute("href",canvas.toDataURL())
+        anchor.click()
+        // console.log(anchor) //testing
+        // document.body.appendChild(canvas)  //testing
+    })
+
+
+
+         //disabling input range
+        function disabled_true(){
+    brightness.setAttribute("disabled","true")
+    opacity.setAttribute("disabled","true")
+    contrast.setAttribute("disabled","true")
+    hue_rotate.setAttribute("disabled","true")
+    saturation.setAttribute("disabled","true")
+    grayscale.setAttribute("disabled","true")
+    reset.setAttribute("disabled","true")
+    save.setAttribute("disabled","true")
+    sepia.setAttribute("disabled","true")
+    }
+
+    disabled_true()
+        //disabling  input buutons
+    function disabled_removed(){
+        brightness.removeAttribute("disabled");
+        opacity.removeAttribute("disabled");
+        contrast.removeAttribute("disabled");
+        hue_rotate.removeAttribute("disabled");
+        saturation.removeAttribute("disabled");
+        grayscale.removeAttribute("disabled");
+        reset.removeAttribute("disabled");
+        save.removeAttribute("disabled");
+        sepia.removeAttribute("disabled");
+    }
+
+    
+    //choose functionalty
+    choose.addEventListener("click",()=>{
+        file.click()
+        file.oninput=(e)=>{
+        brightness.value="90";b_val.innerText="90%"
+        opacity.value="90";o_val.innerText="90%"
+        contrast.value="90";c_val.innerText="90%"
+        hue_rotate.value="0";hue_val.innerText="0%"
+        saturation.value="0";sat_val.innerText="0%"
+        grayscale.value="0";gray_val.innerText="0%"
+        sepia.value="0"; sepia_val.innerText="0%"
+            
+
+            let image_src=file.files[0]
+            var image_link=URL.createObjectURL(image_src)
+            if(file){
+               image.src=image_link;
+            }
+            disabled_removed()
+                
+        }
+       
+        
+    })
+   
+</script>
+</body>
+</html>
